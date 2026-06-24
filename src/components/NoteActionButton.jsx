@@ -3,17 +3,17 @@ import React from 'react';
 function NoteActionButton({ variant, onClick }) {
   const config = {
     delete: {
-      label: 'Delete',
+      label: '🗑 Hapus',
       className: 'note-item__delete-button',
       testId: 'note-item-delete-button',
     },
     archive: {
-      label: 'Arsip',
+      label: '📦 Arsip',
       className: 'note-item__archive-button',
       testId: 'note-item-archive-button',
     },
     unarchive: {
-      label: 'Pindahkan',
+      label: '↩ Kembalikan',
       className: 'note-item__archive-button',
       testId: 'note-item-archive-button',
     },

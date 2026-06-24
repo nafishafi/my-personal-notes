@@ -23,7 +23,6 @@ function groupNotesByMonthYear(notes) {
     groups[groupKey].push(note);
   });
 
-  // Urutkan grup dari terbaru ke terlama berdasarkan catatan pertama tiap grup
   return Object.fromEntries(
     Object.entries(groups).sort(([, aList], [, bList]) => {
       return new Date(bList[0].createdAt) - new Date(aList[0].createdAt);
@@ -50,22 +49,26 @@ function NotesList({ notes, onDelete, onArchive, dataTestId = 'notes-list', sear
   const groupedNotes = groupNotesByMonthYear(notes);
 
   return (
-    <div className="notes-list" data-testid={dataTestId}>
+    <div data-testid={dataTestId}>
       {Object.entries(groupedNotes).map(([groupKey, groupNotes]) => (
         <section key={groupKey} data-testid={`${groupKey}-group`} className="notes-group">
-          <h3 className="notes-group__header">{formatGroupHeader(groupKey)}</h3>
-          <span data-testid={`${groupKey}-group-count`} className="notes-group__count">
-            {groupNotes.length} catatan
-          </span>
-          {groupNotes.map((note) => (
-            <NoteItem
-              key={note.id}
-              note={note}
-              onDelete={onDelete}
-              onArchive={onArchive}
-              searchKeyword={searchKeyword}
-            />
-          ))}
+          <div className="notes-group__header">
+            <h3>{formatGroupHeader(groupKey)}</h3>
+            <span data-testid={`${groupKey}-group-count`} className="notes-group__count">
+              {groupNotes.length} catatan
+            </span>
+          </div>
+          <div className="notes-group__items">
+            {groupNotes.map((note) => (
+              <NoteItem
+                key={note.id}
+                note={note}
+                onDelete={onDelete}
+                onArchive={onArchive}
+                searchKeyword={searchKeyword}
+              />
+            ))}
+          </div>
         </section>
       ))}
     </div>

@@ -47,51 +47,66 @@ class NoteInput extends React.Component {
 
   render() {
     const { title, body } = this.state;
+    const remaining = TITLE_MAX_LENGTH - title.length;
+    const bodyTooShort = body.length > 0 && body.length < BODY_MIN_LENGTH;
 
     return (
       <div className="note-input" data-testid="note-input">
-        <h2>Buat catatan</h2>
-
-        {body.length < 10 && body.length > 0 && (
-          <p className="note-input__feedback--error">
-            Isi catatan minimal harus 10 karakter
-          </p>
-        )}
+        <div className="note-input__header">
+          <div className="note-input__header-icon">✏️</div>
+          <h2>Buat Catatan</h2>
+        </div>
 
         <form
           onSubmit={this.onSubmitEventHandler}
           data-testid="note-input-form"
         >
-          <span
-            className={`note-input__title__char-limit${TITLE_MAX_LENGTH - title.length < 10 ? ' note-input__title__char-limit--low' : ''}`}
-            data-testid="note-input-title-remaining"
-          >
-            {TITLE_MAX_LENGTH - title.length} karakter tersisa
-          </span>
-          <input
-            className="note-input__title"
-            type="text"
-            placeholder="Ini adalah judul ..."
-            value={title}
-            onChange={this.onTitleChangeEventHandler}
-            required
-            data-testid="note-input-title-field"
-          />
+          <div className="note-input__title-row">
+            <span
+              className={`note-input__title__char-limit${remaining < 10 ? ' note-input__title__char-limit--low' : ''}`}
+              data-testid="note-input-title-remaining"
+            >
+              {remaining} karakter tersisa
+            </span>
+            <input
+              className="note-input__title"
+              type="text"
+              placeholder="Judul catatan..."
+              value={title}
+              onChange={this.onTitleChangeEventHandler}
+              required
+              data-testid="note-input-title-field"
+            />
+          </div>
+
           <textarea
             className="note-input__body"
-            placeholder="Tuliskan catatanmu di sini ..."
+            placeholder="Tulis catatanmu di sini..."
             value={body}
             onChange={this.onBodyChangeEventHandler}
             required
             data-testid="note-input-body-field"
           />
-          <button type="submit" data-testid="note-input-submit-button">
-            Buat
-          </button>
+
+          {bodyTooShort && (
+            <p className="note-input__feedback note-input__feedback--error">
+              Isi catatan minimal 10 karakter
+            </p>
+          )}
+
+          <div className="note-input__form-footer">
+            <span className="note-input__autosave-hint">
+              {title || body ? '● Sedang mengetik...' : ''}
+            </span>
+            <button type="submit" data-testid="note-input-submit-button">
+              + Simpan Catatan
+            </button>
+          </div>
         </form>
       </div>
     );
   }
+
 }
 
 export default NoteInput;

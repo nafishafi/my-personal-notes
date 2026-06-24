@@ -75,7 +75,10 @@ class App extends React.Component {
     return (
       <div className="note-app" data-testid="note-app">
         <div className="note-app__header" data-testid="note-app-header">
-          <h1>Notes</h1>
+          <div className="note-app__header-brand">
+            <div className="note-app__header-icon">📝</div>
+            <h1>My Notes</h1>
+          </div>
           <NoteSearch onSearch={this.onSearchHandler} />
         </div>
         <div className="note-app__body" data-testid="note-app-body">
@@ -85,7 +88,8 @@ class App extends React.Component {
             data-testid="active-notes-section"
           >
             <h2 id="active-notes-title">
-              Catatan Aktif ({activeNotes.length})
+              Catatan Aktif
+              <span className="section-badge">{activeNotes.length}</span>
             </h2>
             <NotesList
               notes={activeNotes}
@@ -100,7 +104,8 @@ class App extends React.Component {
             data-testid="archived-notes-section"
           >
             <h2 id="archived-notes-title">
-              Arsip ({archivedNotes.length})
+              Arsip
+              <span className="section-badge">{archivedNotes.length}</span>
             </h2>
             <NotesList
               notes={archivedNotes}
@@ -113,6 +118,7 @@ class App extends React.Component {
         </div>
       </div>
     );
+
   }
 }
 
